@@ -11,6 +11,6 @@
   "author": "Shawn Blakesley",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^33.4.11"
+    "electron": "^39.8.10"
   }
 }
