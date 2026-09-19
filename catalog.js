@@ -43,6 +43,22 @@
         tags: ["LLMs", "Transformers", "DeepSeek", "RL", "Serving"],
         accent: "#4f46e5",
         status: "available"
+      },
+
+      {
+        id: "game-design-for-programmers",
+        title: "Game Design for Programmers",
+        shortTitle: "Game Design for Programmers",
+        subtitle: "A 36-week craft course for experienced developers",
+        description:
+          "Learn game design as a discipline, not a coding skill: systems and game feel, player psychology, balance and economies, level and narrative design, production ethics, and a playtested capstone. Every one of the 36 lessons ships with vocabulary, exercises, and its own quiz.",
+        path: "courses/game-design-for-programmers/",
+        lessons: 36,
+        duration: "9 units",
+        level: "Intermediate",
+        tags: ["Game Design", "Systems", "Player Psychology", "Level Design", "Narrative"],
+        accent: "#0d9488",
+        status: "available"
       }
 
       /* Template for the next course:

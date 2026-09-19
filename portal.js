@@ -106,7 +106,7 @@
     html += "<p>Create <code>courses/&lt;slug&gt;/</code> with its own <code>index.html</code>, <code>curriculum.js</code>, <code>diagrams.js</code>, <code>videos.js</code>, and <code>app.js</code>, then add one entry to <code>catalog.js</code>. Set <code>CURRICULUM.id</code> to the same slug so progress is stored separately for each course.</p>";
     html += "</section>";
 
-    html += '<footer class="hub-foot">From Linear Regression to DeepSeek-V4.1-Flash and beyond.</footer>';
+    html += '<footer class="hub-foot">From language models to game design, end to end.</footer>';
 
     root.innerHTML = html;
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Game Design for Programmers</title>
+  <meta name="description" content="A 36-week craft course that teaches experienced software developers game design: systems, player psychology, balance, level design, narrative, production, and a capstone, with vocabulary, exercises, and a quiz in every lesson.">
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body data-hub-href="../../index.html">
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Course navigation"></aside>
+
+    <div class="content">
+      <header class="topbar">
+        <button class="menu-btn" type="button" data-action="toggle-menu" aria-label="Toggle navigation">&#9776;</button>
+        <div class="topbar-progress">
+          <div class="topbar-track"><span id="progressBar"></span></div>
+          <span class="topbar-label" id="progressLabel">0 / 0 lessons</span>
+        </div>
+        <a class="theme-btn" href="../../index.html">All courses</a>
+        <button class="theme-btn" type="button" data-action="toggle-theme" aria-label="Toggle color theme">Theme</button>
+      </header>
+
+      <main id="main" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <script src="../../catalog.js"></script>
+  <script src="curriculum.js"></script>
+  <script src="diagrams.js"></script>
+  <script src="videos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

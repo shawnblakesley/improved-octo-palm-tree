@@ -430,6 +430,17 @@ main { padding: 32px 40px 80px; max-width: 1080px; width: 100%; margin: 0 auto; 
 .watch-name { font-size: 14px; font-weight: 600; }
 .watch-channel { font-size: 11.5px; color: var(--faint); text-transform: uppercase; letter-spacing: .05em; }
 
+/* --------------------- per-lesson quiz and reflection --------------------- */
+.lesson-quiz { margin-top: 22px; }
+.lesson-quiz .col-title { display: flex; align-items: baseline; gap: 10px; }
+.quiz-count {
+  font-size: 12px; font-weight: 500; color: var(--faint);
+  text-transform: none; letter-spacing: 0;
+}
+.lesson-reflect { margin-top: 22px; }
+.reflect-item { margin-bottom: 8px; }
+.quiz-back { margin-top: 18px; }
+
 @media print {
   .sidebar, .topbar, .pager, .quiz-actions, .watch { display: none; }
   main { padding: 0; }

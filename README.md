@@ -23,6 +23,14 @@ courses/
     diagrams.js             SVG diagram engine, specs, and lesson mapping
     videos.js               Curated YouTube links per phase and lesson
     app.js                  Routing, progress, quizzes, theme
+
+  game-design-for-programmers/
+    index.html              Course subsite shell (per-lesson quizzes)
+    curriculum.js           Units, lessons, vocabulary, exercises, quizzes
+    diagrams.js             SVG diagram engine, specs, and lesson mapping
+    videos.js               Curated YouTube links per unit and lesson
+    app.js                  Routing, progress, quizzes, theme
+    lessons/                Full Markdown source for all 36 lessons
 ```
 
 Each course loads the shared `styles.css` and `catalog.js` from two levels up, then its own scripts.
@@ -108,6 +116,10 @@ the Electron app keeps one set of progress and a local dev server keeps another.
 
 - **Nine phases, 45 lessons** (in the DeepSeek course): tooling, math/ML, deep learning,
   Transformers, pretraining, post-training/RL, DeepSeek architecture, deployment, and a capstone.
+- **Nine units, 36 lessons** (in the Game Design course): foundations and systems, player
+  psychology, balance and economies, level and world design, challenge and AI, narrative and
+  emotion, production and ethics, and a playtested capstone. Every lesson carries its own
+  multiple-choice quiz plus reflective prompts with model answers.
 - **Vocabulary dropdowns** instead of dense prose, with a specific definition per term.
 - **Architecture diagrams** rendered from a small SVG flowchart engine, theme-aware.
 - **Curated videos** keyed to phases and lessons.
