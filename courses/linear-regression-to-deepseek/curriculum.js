@@ -6,7 +6,9 @@
    ========================================================================= */
 
 const CURRICULUM = {
+  id: "linear-regression-to-deepseek",
   title: "From Linear Regression to DeepSeek-V4.1-Flash",
+  shortTitle: "Linear Regression to V4.1-Flash",
   subtitle: "A self-paced path from fitting a line to training and deploying a 552B-parameter model.",
   intro:
     "Work through the phases in order, or jump to what you need. Each lesson has a short goal, a few key points, expandable vocabulary, and one hands-on exercise. Each phase ends with a quiz. Everything is saved in your browser.",

@@ -1,110 +1,82 @@
-# From Linear Regression to DeepSeek-V4.1-Flash
+# Learning Hub
 
-A self-contained, self-paced learning site built from the curriculum: nine phases from tooling and math
-foundations to training and deploying DeepSeek-V4.1-Flash (`deepseek-flash`).
+A static, dependency-free multi-course site. The hub page lists courses; each course is a standalone
+subsite with its own lessons, vocabulary, exercises, quizzes, diagrams, and video references.
+Progress is saved separately for every course.
 
-No build step, no dependencies. Open `index.html` in a browser.
+## Structure
 
-## Files
+```
+index.html                  Hub: the course catalog
+catalog.js                  Course registry (source of truth for the hub and app menu)
+portal.js                   Renders the hub
+styles.css                  Shared styling for the hub and all courses
 
-| File | Purpose |
-|---|---|
-| `index.html` | Page shell and script includes |
-| `styles.css` | All styling, including light/dark themes, diagrams, and responsive layout |
-| `curriculum.js` | All course content: phases, lessons, vocabulary, exercises, quizzes |
-| `diagrams.js` | SVG diagram engine, diagram specs, and lesson/phase diagram mapping |
-| `videos.js` | Curated YouTube links keyed by phase and lesson |
-| `app.js` | Routing, rendering, progress tracking, quiz grading, theme |
+main.js                     Electron desktop shell
+build/icon.ico, icon.png    App icon
+build/make-icon.ps1         Regenerates the icon
 
-## Features
+courses/
+  linear-regression-to-deepseek/
+    index.html              Course subsite shell
+    curriculum.js           Phases, lessons, vocabulary, exercises, quizzes
+    diagrams.js             SVG diagram engine, specs, and lesson mapping
+    videos.js               Curated YouTube links per phase and lesson
+    app.js                  Routing, progress, quizzes, theme
+```
 
-- **Nine phases, 45 lessons** following the curriculum plan (orientation, math/ML, deep learning, Transformers, pretraining, post-training/RL, DeepSeek architecture, deployment, capstone).
-- **Vocabulary dropdowns** — every lesson has expandable terms with specific definitions instead of dense prose.
-- **Architecture diagrams** — 20 hand-built SVG diagrams (attention, RoPE, MoE, MLA, hybrid sparse attention, the V4.1-Flash causal encoder-decoder, KV cache paging, disaggregated serving, and more), rendered from a small flowchart engine so they follow the light/dark theme.
-- **Curated YouTube videos** — 90 links keyed to phases and lessons (Karpathy, 3Blue1Brown, Stanford CS336, Umar Jamil, Jia-Bin Huang, freeCodeCamp, IBM, and others). Every lesson links to a diagram or a video.
-- **Exercises** — one hands-on task per lesson with a collapsible hint and a completion checkbox.
-- **Quizzes** — a multiple-choice check per phase with immediate feedback, explanations, and a saved best score.
-- **Progress tracking** — lessons, exercises, and quiz scores persist in `localStorage`. A "Continue" button jumps to your next incomplete lesson.
-- **Light/dark theme**, responsive layout with a collapsible sidebar on mobile.
-- **Reset progress** from the sidebar footer.
+Each course loads the shared `styles.css` and `catalog.js` from two levels up, then its own scripts.
 
-## Editing content
+## Adding a course
 
-Everything the site displays comes from `CURRICULUM` in `curriculum.js`. To add or change material,
-edit that object only. A phase has this shape:
+1. Copy `courses/linear-regression-to-deepseek/` to `courses/<new-slug>/`.
+2. In the new `curriculum.js`, set `id` to `<new-slug>` and replace the content.
+3. In the new `index.html`, update the `<title>`, and keep `data-hub-href="../../index.html"`.
+4. Add an entry to `catalog.js`:
 
 ```js
 {
-  id: "p1", num: 1, title: "...", tagline: "...", goal: "...", duration: "6 weeks",
-  lessons: [{
-    id: "p1l1", title: "...", goal: "...",
-    points: ["short", "bullets"],
-    vocab: [{ term: "...", detail: "..." }],
-    exercise: { title: "...", task: "...", hint: "..." }
-  }],
-  quiz: [{ q: "...", options: ["a","b","c","d"], answer: 1, explain: "..." }]
+  id: "new-slug",
+  title: "Course title",
+  shortTitle: "Short sidebar label",
+  subtitle: "One line describing the outcome",
+  description: "A sentence or two for the hub card.",
+  path: "courses/new-slug/",
+  lessons: 20,
+  duration: "4 phases",
+  level: "Intermediate",
+  tags: ["Topic"],
+  accent: "#0d9488",
+  status: "available"     // or "planned" to show it as Coming soon
 }
 ```
 
-Lesson `id` values must stay unique; progress is keyed on them.
-
-### Adding a diagram
-
-Diagrams use a tiny flowchart engine. Add a spec to `DIAGRAMS` in `diagrams.js`, then map an id in
-`DIAGRAM_FOR`:
-
-```js
-S["my-diagram"] = {
-  title: "What it shows", width: 900, height: 300,
-  nodes: [
-    { id: "a", x: 20, y: 100, w: 140, h: 70, label: "Tokenizer", sub: ["byte-level BPE"], kind: "box" },
-    { id: "b", x: 240, y: 100, w: 150, h: 70, label: "Pretraining", sub: ["next-token"], kind: "accent" }
-  ],
-  edges: [ { from: "a", to: "b", label: "token ids" } ],
-  labels: [ { x: 450, y: 250, text: "optional caption line" } ]
-};
-DIAGRAM_FOR["p3l1"] = "my-diagram";
-```
-
-Node `kind` is one of `box`, `accent`, `good`, `gold`, or `ghost`. Edge `color` can be `muted`,
-`accent`, `good`, or `gold`; add `dashed: true` for dashed arrows. Corners route automatically based
-on node positions.
-
-### Adding a video
-
-Add to the relevant key in `VIDEO_FOR` in `videos.js`:
-
-```js
-p5l3: [ v("Video title", "Channel", "https://www.youtube.com/watch?v=XXXXXXXXXXX") ]
-```
-
-Phase key (`p5`) videos appear in the phase header; lesson key (`p5l3`) videos appear inside that
-lesson. Lesson videos already shown at the phase level are hidden to avoid repeats.
+`CURRICULUM.id` must match the catalog `id`; that is how the course and the hub agree on where
+progress is stored. A commented template sits at the bottom of `catalog.js`.
 
 ## Running
 
-- Double-click `index.html`, or
-- Serve locally for a cleaner URL: `python -m http.server 8000` then open `http://localhost:8000/`.
+- **Hub:** open `index.html`. A course can also be opened directly, for example
+  `courses/linear-regression-to-deepseek/index.html`.
+- **Local server:** `python -m http.server 8000`, then open `http://localhost:8000/`.
+- **Desktop app:** see below.
 
 ## Desktop app (Electron)
 
-`main.js` wraps the site in an Electron window. It serves the files from an in-process HTTP
-server on a fixed loopback port so that `localStorage` progress survives restarts, and it sends
-YouTube links to your default browser.
+`main.js` wraps the hub in an Electron window. It serves the files from an in-process HTTP server on
+a fixed loopback port so that `localStorage` progress survives restarts, serves `index.html` for
+directory URLs, and sends YouTube links to your default browser.
 
 ```bash
 npm install     # installs Electron (first time only)
 npm start       # or: node_modules\electron\dist\electron.exe .
 ```
 
-Notes:
+The window opens on the hub. Its **Go** menu lists every available course (from `catalog.js`) with
+quick links to each course's overview and its Phase 6 and Phase 7 sections.
 
-- Electron is pinned to a version that supports the installed Node release. If `npm start` reports a
-  missing binary, run `npm install` again.
-- The window has a menu with reload, zoom, fullscreen, deep links to phases, and shortcuts to the
-  project folder.
-- `build/icon.ico` is generated by `build/make-icon.ps1` and used for both the window and the desktop
-  shortcut.
+Electron is pinned to a version that supports the installed Node release. If `npm start` reports a
+missing binary, run `npm install` again.
 
 ### Desktop shortcut
 
@@ -124,3 +96,52 @@ $lnk.WorkingDirectory = $proj
 $lnk.IconLocation = (Join-Path $proj 'build\icon.ico')
 $lnk.Save()
 ```
+
+## Progress storage
+
+Each course stores progress under `course:<id>:progress:v1` in `localStorage`, keyed to the course
+id. Lesson checkboxes, exercise completion, quiz best scores, and the theme are stored together, so
+courses never overwrite each other. Because storage is per origin, opening the same course through
+the Electron app keeps one set of progress and a local dev server keeps another.
+
+## Course features
+
+- **Nine phases, 45 lessons** (in the DeepSeek course): tooling, math/ML, deep learning,
+  Transformers, pretraining, post-training/RL, DeepSeek architecture, deployment, and a capstone.
+- **Vocabulary dropdowns** instead of dense prose, with a specific definition per term.
+- **Architecture diagrams** rendered from a small SVG flowchart engine, theme-aware.
+- **Curated videos** keyed to phases and lessons.
+- **Exercises** with collapsible hints and completion checkboxes.
+- **Quizzes** with instant feedback, explanations, and a saved best score.
+- **Progress tracking** and a light/dark theme.
+
+### Adding a diagram
+
+Add a spec to `DIAGRAMS` in the course's `diagrams.js`, then map an id in `DIAGRAM_FOR`:
+
+```js
+S["my-diagram"] = {
+  title: "What it shows", width: 900, height: 300,
+  nodes: [
+    { id: "a", x: 20, y: 100, w: 140, h: 70, label: "Tokenizer", sub: ["byte-level BPE"], kind: "box" },
+    { id: "b", x: 240, y: 100, w: 150, h: 70, label: "Pretraining", sub: ["next-token"], kind: "accent" }
+  ],
+  edges: [ { from: "a", to: "b", label: "token ids" } ],
+  labels: [ { x: 450, y: 250, text: "optional caption line" } ]
+};
+DIAGRAM_FOR["p3l1"] = "my-diagram";
+```
+
+Node `kind` is one of `box`, `accent`, `good`, `gold`, or `ghost`. Edge `color` can be `muted`,
+`accent`, `good`, or `gold`; add `dashed: true` for dashed arrows. Corners route automatically.
+
+### Adding a video
+
+Add to the relevant key in `VIDEO_FOR` in the course's `videos.js`:
+
+```js
+p5l3: [ v("Video title", "Channel", "https://www.youtube.com/watch?v=XXXXXXXXXXX") ]
+```
+
+Phase key (`p5`) videos appear in the phase header; lesson key (`p5l3`) videos appear inside that
+lesson. Lesson videos already shown at the phase level are hidden to avoid repeats.

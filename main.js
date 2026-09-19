@@ -15,6 +15,7 @@ const { app, BrowserWindow, Menu, shell } = require("electron");
 const path = require("node:path");
 const fs = require("node:fs");
 const http = require("node:http");
+const HUB = require("./catalog.js");
 
 const ROOT = __dirname;
 const PREFERRED_PORT = 47615;
@@ -45,7 +46,8 @@ function handleRequest(req, res) {
     return;
   }
 
-  if (pathname === "/" || pathname === "") pathname = "/index.html";
+  // A trailing slash means a directory, so serve its index.html.
+  if (pathname === "" || pathname.endsWith("/")) pathname += "index.html";
 
   const filePath = path.join(ROOT, path.normalize(pathname));
 
@@ -122,13 +124,7 @@ function buildMenu() {
     },
     {
       label: "Go",
-      submenu: [
-        { label: "Overview", click: () => loadRoute("#/") },
-        { label: "Phase 6: DeepSeek Architecture", click: () => loadRoute("#/phase/p6") },
-        { label: "Phase 7: Deployment", click: () => loadRoute("#/phase/p7") },
-        { type: "separator" },
-        { label: "Open project folder", click: () => shell.openPath(ROOT) }
-      ]
+      submenu: buildGoMenu()
     }
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
@@ -136,8 +132,29 @@ function buildMenu() {
 
 let mainWindow = null;
 
-function loadRoute(hash) {
-  if (mainWindow && origin) mainWindow.loadURL(origin + "/" + hash);
+function openPath(p) {
+  if (mainWindow && origin) mainWindow.loadURL(origin + p);
+}
+
+function buildGoMenu() {
+  const items = [{ label: "Home", click: () => openPath("/") }];
+  const available = (HUB.courses || []).filter((c) => c.status === "available");
+
+  available.forEach((course) => {
+    items.push({ type: "separator" });
+    items.push({
+      label: course.shortTitle || course.title,
+      submenu: [
+        { label: "Overview", click: () => openPath("/" + course.path + "#/") },
+        { label: "Phase 6: DeepSeek architecture", click: () => openPath("/" + course.path + "#/phase/p6") },
+        { label: "Phase 7: Deployment", click: () => openPath("/" + course.path + "#/phase/p7") }
+      ]
+    });
+  });
+
+  items.push({ type: "separator" });
+  items.push({ label: "Open project folder", click: () => shell.openPath(ROOT) });
+  return items;
 }
 
 async function createWindow() {

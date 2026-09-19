@@ -6,7 +6,14 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "ds-curriculum-progress-v1";
+  /* Course identity comes from curriculum.js; the hub supplies the shared
+     progress-key format so every course stores progress separately. */
+  var COURSE = (typeof CURRICULUM !== "undefined" && CURRICULUM) || {};
+  var COURSE_ID = COURSE.id || "default";
+  var HUB_HREF = document.body.getAttribute("data-hub-href") || "";
+  var STORAGE_KEY = (window.COURSE_HUB && window.COURSE_HUB.progressKey)
+    ? window.COURSE_HUB.progressKey(COURSE_ID)
+    : "course:" + COURSE_ID + ":progress:v1";
 
   /* ----------------------------- state ----------------------------- */
   var state = load();
@@ -129,8 +136,12 @@
     var html = "";
     html += '<div class="brand">';
     html += '<div class="brand-mark">DS</div>';
-    html += '<div class="brand-text"><strong>DeepSeek Path</strong><span>Linear regression &rarr; V4.1-Flash</span></div>';
+    html += '<div class="brand-text"><strong>' + esc(COURSE.shortTitle || COURSE.title || "Course") + "</strong><span>Self-paced course</span></div>";
     html += "</div>";
+
+    if (HUB_HREF) {
+      html += '<a class="nav-hub" href="' + esc(HUB_HREF) + '">&larr; All courses</a>';
+    }
 
     html += '<a class="nav-home' + (activePhaseId ? "" : " active") + '" href="#/">Overview</a>';
     html += '<div class="nav-label">Phases</div>';
