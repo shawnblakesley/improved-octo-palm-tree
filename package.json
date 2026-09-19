@@ -1,0 +1,16 @@
+{
+  "name": "deepseek-curriculum",
+  "productName": "DeepSeek Curriculum",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Desktop launcher for the From Linear Regression to DeepSeek-V4.1-Flash curriculum site",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Shawn Blakesley",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.4.11"
+  }
+}

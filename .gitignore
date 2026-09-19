@@ -9,3 +9,8 @@ desktop.ini
 *.log
 .venv/
 __pycache__/
+
+# Electron
+node_modules/
+dist/
+out/
