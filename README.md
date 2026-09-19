@@ -81,9 +81,13 @@ npm start       # or: node_modules\electron\dist\electron.exe .
 ```
 
 The window opens on the hub. Its **Go** menu lists every available course (from `catalog.js`) with
-quick links to each course's overview and its Phase 6 and Phase 7 sections.
+a quick link to each course's overview, plus course-specific sections where defined.
 
-Electron is pinned to a version that supports the installed Node release. If `npm start` reports a
+**Requirements:** Node.js 22.12 or newer. The project uses Electron 44, which switched to
+`@electron/get` 5 and Electron's maintained `@electron-internal/extract-zip`; Electron 39 and
+earlier depended on `extract-zip`, which carries open high-severity symlink path-traversal
+advisories (GHSA-jmr9-qjv8-65gv, GHSA-7pqw-9j4j-h8q3) with no patched release. `npm install` runs
+Electron's installer via the `postinstall` script to download the binary. If `npm start` reports a
 missing binary, run `npm install` again.
 
 ### Desktop shortcut

@@ -140,16 +140,22 @@ function buildGoMenu() {
   const items = [{ label: "Home", click: () => openPath("/") }];
   const available = (HUB.courses || []).filter((c) => c.status === "available");
 
+  /* Optional per-course quick links, keyed by course id. Courses without an
+     entry get a plain Overview link. */
+  const QUICK_LINKS = {
+    "linear-regression-to-deepseek": [
+      { label: "Phase 6: DeepSeek architecture", hash: "#/phase/p6" },
+      { label: "Phase 7: Deployment", hash: "#/phase/p7" }
+    ]
+  };
+
   available.forEach((course) => {
-    items.push({ type: "separator" });
-    items.push({
-      label: course.shortTitle || course.title,
-      submenu: [
-        { label: "Overview", click: () => openPath("/" + course.path + "#/") },
-        { label: "Phase 6: DeepSeek architecture", click: () => openPath("/" + course.path + "#/phase/p6") },
-        { label: "Phase 7: Deployment", click: () => openPath("/" + course.path + "#/phase/p7") }
-      ]
+    const submenu = [{ label: "Overview", click: () => openPath("/" + course.path + "#/") }];
+    (QUICK_LINKS[course.id] || []).forEach((link) => {
+      submenu.push({ label: link.label, click: () => openPath("/" + course.path + link.hash) });
     });
+    items.push({ type: "separator" });
+    items.push({ label: course.shortTitle || course.title, submenu });
   });
 
   items.push({ type: "separator" });
@@ -167,7 +173,7 @@ async function createWindow() {
     minWidth: 900,
     minHeight: 600,
     backgroundColor: "#f5f6fa",
-    title: "From Linear Regression to DeepSeek-V4.1-Flash",
+    title: "Learning Hub",
     icon: appIcon(),
     show: false,
     webPreferences: {
