@@ -12,7 +12,7 @@
   "author": "Shawn Blakesley",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^44.4.3"
+    "electron": "^44.9.1"
   },
   "engines": {
     "node": ">=22.12.0"
